@@ -7,6 +7,8 @@ import { MUTATION_REGISTER } from 'graphql/mutations/register'
 import * as S from './styles'
 import { signIn } from 'next-auth/react'
 
+import Button from '../Button'
+
 const FromSignUp = () => {
   const [createUser, { error }] = useMutation(MUTATION_REGISTER, {
     onError: (err) => console.log(err),
@@ -45,28 +47,81 @@ const FromSignUp = () => {
 
   return (
     <S.Wrapper>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="username"
-          onChange={(entry) => handleInput('username', entry.target.value)}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          onChange={(entry) => handleInput('email', entry.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          onChange={(entry) => handleInput('password', entry.target.value)}
-        />
+      <S.Form onSubmit={handleSubmit}>
+        <S.Line>
+          <S.InputArea>
+            <S.Label htmlFor="name">Nome completo*</S.Label>
+            <S.Input
+              type="text"
+              name="name"
+              id="name"
+              onChange={(entry) => handleInput('name', entry.target.value)}
+            />
+          </S.InputArea>
 
-        <button type="submit">Enviar</button>
-      </form>
+          <S.InputArea>
+            <S.Label htmlFor="email">E-mail*</S.Label>
+            <S.Input
+              type="email"
+              name="email"
+              id="email"
+              onChange={(entry) => handleInput('email', entry.target.value)}
+            />
+          </S.InputArea>
+        </S.Line>
+
+        <S.Line>
+          <S.InputArea>
+            <S.Label htmlFor="username">Nome de usuário*</S.Label>
+            <S.Input
+              type="text"
+              name="username"
+              id="username"
+              onChange={(entry) => handleInput('username', entry.target.value)}
+            />
+          </S.InputArea>
+
+          <S.InputArea>
+            <S.Label htmlFor="localization">Localização</S.Label>
+            <S.Input
+              type="text"
+              name="localization"
+              id="localization"
+              onChange={(entry) =>
+                handleInput('localization', entry.target.value)
+              }
+            />
+          </S.InputArea>
+        </S.Line>
+
+        <S.Line>
+          <S.InputArea>
+            <S.Label htmlFor="password">Senha*</S.Label>
+            <S.Input
+              type="password"
+              name="password"
+              id="password"
+              onChange={(entry) => handleInput('password', entry.target.value)}
+            />
+          </S.InputArea>
+
+          <S.InputArea>
+            <S.Label htmlFor="confirmPassword">Confirmar senha*</S.Label>
+            <S.Input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              onChange={(entry) =>
+                handleInput('confirmPassword', entry.target.value)
+              }
+            />
+          </S.InputArea>
+        </S.Line>
+
+        <Button style={{ margin: '45px auto 0 auto' }} type="submit">
+          Cadastrar
+        </Button>
+      </S.Form>
     </S.Wrapper>
   )
 }

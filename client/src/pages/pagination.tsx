@@ -1,55 +1,92 @@
-import { useQuery } from '@apollo/client'
-import { QUERY_FIGURES } from 'graphql/query/figures'
-import { useEffect, useState } from 'react'
+import { GetServerSidePropsContext } from 'next'
+import { useState } from 'react'
+import { QUERY_ALBUMS } from 'graphql/query/albums'
+import { initializeApollo } from 'utils/apollo'
+import protectedRoutes from 'utils/protected-routes'
 
-export default function Pagination() {
+import Figure from '../components/Figure'
+
+export default function Test({ data }: any) {
+  const [figures, setFigures] = useState(
+    data.albums.data[0].attributes.figures.data
+  )
+  const [figurePerPage, setFigurePerPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(0)
-  const [figures, setFigures] = useState([]) as any
 
-  const { data, fetchMore } = useQuery(QUERY_FIGURES, {
+  const pages = Math.ceil(figures.length / figurePerPage)
+  const startIndex = currentPage * figurePerPage
+  const endIndex = startIndex + figurePerPage
+  const currentFigure = figures.slice(startIndex, endIndex)
+
+  console.log(data)
+
+  return (
+    <>
+      <div>
+        {Array.from(Array(pages), (figure, index) => {
+          return (
+            <button
+              key={index}
+              value={index}
+              onClick={(e) => setCurrentPage(Number(e.target.value))}
+            >
+              {index + 1}
+            </button>
+          )
+        })}
+      </div>
+
+      {currentFigure.map((figure) => {
+        return (
+          <Figure
+            key={figure.attributes.player.data.attributes.cpf}
+            name={figure.attributes.player.data.attributes.name}
+            photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
+            alt={
+              figure.attributes.player.data.attributes.photo.data[0].attributes
+                .alternativeText || ''
+            }
+            birth_date={figure.attributes.player.data.attributes.birth_date}
+            height={figure.attributes.player.data.attributes.heigth}
+            weight={figure.attributes.player.data.attributes.weight}
+            nation={
+              figure.attributes.player.data.attributes.nation.data.attributes
+                .name
+            }
+            position={
+              figure.attributes.player.data.attributes.position.data.attributes
+                .name
+            }
+            cpf={figure.attributes.player.data.attributes.cpf}
+          />
+        )
+      })}
+    </>
+  )
+}
+
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  const session = await protectedRoutes(ctx)
+  const apolloClient = initializeApollo(null, session)
+
+  const { data } = await apolloClient.query({
+    query: QUERY_ALBUMS,
     variables: {
-      pagination: {
-        limit: 2
+      filters: {
+        user: {
+          id: {
+            eq: session?.id
+          }
+        }
       }
     }
   })
 
-  useEffect(() => {
-    setFigures(data?.figures.data)
-  }, [data])
-
-  const handleShowMore = (value: any) => {
-    console.log({ value })
-    fetchMore({
-      variables: {
-        pagination: {
-          limit: 2,
-          start: currentPage
-        }
-      }
-    }).then((r) => {
-      setFigures((s: any) => [...r.data.figures.data])
-      setCurrentPage(value)
-    })
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+      data,
+      session
+    }
   }
-
-  return (
-    <>
-      <h1>Paginação</h1>
-      {Array.from(Array(5), (item, idx) => (
-        <button
-          value={idx}
-          onClick={(e) =>
-            handleShowMore(Number((e.target as HTMLInputElement).value))
-          }
-        >
-          {idx}
-        </button>
-      ))}
-      <button onClick={() => handleShowMore(currentPage + 2)}>Show More</button>
-      <h1>Items</h1>
-      {figures &&
-        figures.map((item, idx) => <p key={idx}>{item.attributes.cpf}</p>)}
-    </>
-  )
 }

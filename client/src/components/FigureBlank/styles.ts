@@ -8,18 +8,6 @@ export const Area = styled.div`
   }
 `
 
-export const Image = styled.img`
-  width: 250px;
-  height: 344px;
-  background-color: #f2f2f2;
-`
-
-export const Empty = styled.div`
-  width: 250px;
-  height: 344px;
-  background-color: #f2f2f2;
-`
-
 export const Wrapper = styled.div`
   background: linear-gradient(180deg, #af7cdd 0%, #2dd18c 100%);
   width: 250px;
@@ -42,6 +30,7 @@ export const Content = styled.div`
   border-radius: 0px 0px 10px 10px;
   width: 100%;
   height: 57px;
+  margin-top: 4px;
 `
 
 export const Name = styled.p`
