@@ -21,6 +21,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "nation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::nation.nation"
     }
   }
 }

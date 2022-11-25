@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "groups",
+  "info": {
+    "singularName": "group",
+    "pluralName": "groups",
+    "displayName": "group",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::nation.nation"
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 1,
+      "unique": true
+    }
+  }
+}

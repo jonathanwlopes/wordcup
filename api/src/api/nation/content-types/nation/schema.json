@@ -22,12 +22,12 @@
       "required": true
     },
     "flag": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": true,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "continent": {
       "type": "string",
@@ -38,6 +38,13 @@
       "relation": "oneToMany",
       "target": "api::player.player",
       "mappedBy": "nation"
+    },
+    "bg": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

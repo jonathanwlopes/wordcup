@@ -21,6 +21,11 @@
       "type": "biginteger",
       "required": true,
       "unique": true
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user"
     }
   }
 }
