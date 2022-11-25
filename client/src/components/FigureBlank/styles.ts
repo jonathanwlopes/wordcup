@@ -8,11 +8,6 @@ export const Area = styled.div`
   }
 `
 
-export const Image = styled.img`
-  width: 250px;
-  height: 344px;
-`
-
 export const Wrapper = styled.div`
   background: linear-gradient(180deg, #af7cdd 0%, #2dd18c 100%);
   width: 250px;

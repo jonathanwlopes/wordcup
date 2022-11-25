@@ -9,6 +9,20 @@ export const QUERY_ALBUMS = gql`
             data {
               attributes {
                 name
+                players {
+                  data {
+                    attributes {
+                      name
+                      position {
+                        data {
+                          attributes {
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }

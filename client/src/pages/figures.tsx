@@ -7,6 +7,7 @@ import { QUERY_ALBUMS } from 'graphql/query/albums'
 import { initializeApollo } from 'utils/apollo'
 
 import Figure from '../components/Figure'
+import FigureBlank from '../components/FigureBlank'
 
 export default function FigurePage({ data }: any) {
   const [figures, setFigures] = useState(
@@ -17,12 +18,40 @@ export default function FigurePage({ data }: any) {
   const [nation, setNation] = useState('')
   const [albums, setAlbums] = useState(data.albums.data)
 
+  console.log('figure', figures)
+  console.log('albums', albums)
+
+  const acertos = []
+
+  // filter if figure has in albums
+  const filteredFigures = figures.filter((figure) => {
+    const hasAlbum = albums.find((album) => {
+      const hasFigure = album.attributes.figures.data.find((figureAlbum) => {
+        figureAlbum.attributes.player.data.attributes.name ===
+          figure.attributes.player.data.attributes.name
+      })
+
+      return hasFigure
+    })
+  })
+
+  console.log('filteredFigures', filteredFigures)
+
+  albums[0].attributes.nation.data.attributes.players.data.filter(function (
+    element
+  ) {
+    if (figures.includes(element)) {
+      // se for encontrado um valor nos dois arrays
+      acertos.push(element)
+    }
+  })
+
+  console.log('Figurinhas preenchidas: ', acertos)
+
   const pages = Math.ceil(figures.length / figurePerPage)
   const startIndex = currentPage * figurePerPage
   const endIndex = startIndex + figurePerPage
   const currentFigure = figures.slice(startIndex, endIndex)
-
-  console.log('albums', albums)
 
   useEffect(() => {
     if (nation) {
@@ -63,6 +92,36 @@ export default function FigurePage({ data }: any) {
       <div
         style={{
           display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '20px',
+          flexWrap: 'wrap',
+          width: '1100px',
+          margin: '0 auto'
+        }}
+      >
+        {albums[0].attributes.nation.data.attributes.players.data.map(
+          (player: any) => {
+            if (player.attributes.name) {
+            }
+
+            return (
+              <FigureBlank
+                key={player.attributes.name}
+                name={player.attributes.name}
+                position={player.attributes.position.data.attributes.name.replace(
+                  '_',
+                  ' '
+                )}
+              />
+            )
+          }
+        )}
+      </div>
+
+      {/* <div
+        style={{
+          display: 'flex',
           gap: '10px',
           alignItems: 'center',
           justifyContent: 'center'
@@ -73,25 +132,17 @@ export default function FigurePage({ data }: any) {
             <Figure
               key={figure.attributes.player.data.attributes.cpf}
               name={figure.attributes.player.data.attributes.name}
-              photo={`https://eplus-worldcup.loca.lt/${figure.attributes.player.data.attributes.photo?.data[0]?.attributes?.url}`}
-              birth_date={figure.attributes.player.data.attributes.birth_date}
-              height={figure.attributes.player.data.attributes.heigth}
-              weight={figure.attributes.player.data.attributes.weight}
-              nation={
-                figure.attributes.player.data.attributes.nation.data.attributes
-                  .name
-              }
-              position={
-                figure.attributes.player.data.attributes.position.data
-                  .attributes.name
-              }
-              cpf={figure.attributes.player.data.attributes.cpf}
+              photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo?.data[0]?.attributes?.url}`}
+              position={figure.attributes.player.data.attributes.position.data.attributes.name.replace(
+                '_',
+                ' '
+              )}
             />
           )
         })}
-      </div>
+      </div> */}
 
-      <div
+      {/* <div
         style={{
           display: 'flex',
           gap: '5px',
@@ -114,7 +165,7 @@ export default function FigurePage({ data }: any) {
             </button>
           )
         })}
-      </div>
+      </div> */}
     </Base>
   )
 }

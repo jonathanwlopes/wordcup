@@ -41,7 +41,7 @@ export default function Test({ data }: any) {
           <Figure
             key={figure.attributes.player.data.attributes.cpf}
             name={figure.attributes.player.data.attributes.name}
-            photo={`https://eplus-worldcup.loca.lt/${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
+            photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
             alt={
               figure.attributes.player.data.attributes.photo.data[0].attributes
                 .alternativeText || ''
