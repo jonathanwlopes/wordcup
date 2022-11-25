@@ -1,3 +1,4 @@
+import Footer from 'components/Footer'
 import FromSignUp from 'components/FromSignUp'
 import { QUERY_PLAYERS } from 'graphql/query/players'
 import { initializeApollo } from 'utils/apollo'
@@ -5,8 +6,14 @@ import { initializeApollo } from 'utils/apollo'
 export default function Home() {
   return (
     <>
-      <h1>SignUp</h1>
+      <h1
+        style={{ marginTop: '71px', display: 'flex', justifyContent: 'center' }}
+      >
+        Cadastre-se para começar a montar seu álbum
+      </h1>
       <FromSignUp />
+
+      <Footer />
     </>
   )
 }

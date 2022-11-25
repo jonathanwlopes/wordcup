@@ -16,7 +16,7 @@ type ISession = Session & {
 
 function createApolloClient(session?: ISession | null) {
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
+    uri: `https://eplus-worldcup.loca.lt/graphql`
   })
 
   const authLink = setContext((_, { headers }) => {
