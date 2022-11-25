@@ -7,8 +7,7 @@ export const Footer = styled.footer`
   justify-content: center;
   align-items: center;
   padding: 1rem 0;
-  position: absolute;
-  bottom: 0;
+  margin-top: 60px;
 `
 
 export const Logo = styled.img`
