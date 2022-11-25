@@ -11,6 +11,13 @@ export const Area = styled.div`
 export const Image = styled.img`
   width: 250px;
   height: 344px;
+  background-color: #f2f2f2;
+`
+
+export const Empty = styled.div`
+  width: 250px;
+  height: 344px;
+  background-color: #f2f2f2;
 `
 
 export const Wrapper = styled.div`

@@ -41,8 +41,37 @@ export const QUERY_FIGURES = gql`
   query QueryFigures($pagination: PaginationArg, $filters: FigureFiltersInput) {
     figures(pagination: $pagination, filters: $filters) {
       data {
+        id
         attributes {
-          ...FigureFragment
+          cpf
+          player {
+            data {
+              attributes {
+                name
+                nation {
+                  data {
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                photo {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
+                position {
+                  data {
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

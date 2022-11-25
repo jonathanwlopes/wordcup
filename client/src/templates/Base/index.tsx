@@ -1,4 +1,5 @@
-import Footer from '../../components/Footer'
+import Header from 'components/Header'
+import Footer from 'components/Footer'
 
 export type BaseTemplateProps = {
   children: React.ReactNode
@@ -7,7 +8,7 @@ export type BaseTemplateProps = {
 export const Base = ({ children }: BaseTemplateProps) => {
   return (
     <div>
-      <header>Header</header>
+      <Header logo="/img/logo.png" />
       {children}
       <Footer />
     </div>

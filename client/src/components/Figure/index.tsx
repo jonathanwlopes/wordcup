@@ -6,14 +6,23 @@ interface FigureProps {
   position: string
 }
 
-const Figure = ({ name, photo, position }: FigureProps) => (
-  <S.Area>
-    <S.Image src={photo} alt={name} />
-    <S.Content>
-      <S.Name>{name}</S.Name>
-      <S.Position>{position}</S.Position>
-    </S.Content>
-  </S.Area>
-)
+const Figure = ({ name, photo, position }: FigureProps) => {
+  return (
+    <S.Area>
+      {photo && (
+        <S.Image
+          src={`${process.env.NEXT_PUBLIC_API_URL}${photo}`}
+          alt={name}
+        />
+      )}
+
+      {!photo && <S.Empty />}
+      <S.Content>
+        <S.Name>{name}</S.Name>
+        <S.Position>{position}</S.Position>
+      </S.Content>
+    </S.Area>
+  )
+}
 
 export default Figure
