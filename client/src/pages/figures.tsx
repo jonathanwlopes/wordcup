@@ -18,35 +18,14 @@ export default function FigurePage({ data }: any) {
   const [nation, setNation] = useState('')
   const [albums, setAlbums] = useState(data.albums.data)
 
-  console.log('figure', figures)
-  console.log('albums', albums)
-
-  const acertos = []
-
-  // filter if figure has in albums
-  const filteredFigures = figures.filter((figure) => {
-    const hasAlbum = albums.find((album) => {
-      const hasFigure = album.attributes.figures.data.find((figureAlbum) => {
-        figureAlbum.attributes.player.data.attributes.name ===
-          figure.attributes.player.data.attributes.name
-      })
-
-      return hasFigure
-    })
-  })
-
-  console.log('filteredFigures', filteredFigures)
-
-  albums[0].attributes.nation.data.attributes.players.data.filter(function (
-    element
-  ) {
+  const hasFigures = []
+  albums[0].attributes.figures.data.filter(function (element) {
     if (figures.includes(element)) {
-      // se for encontrado um valor nos dois arrays
-      acertos.push(element)
+      hasFigures.push(element)
     }
   })
 
-  console.log('Figurinhas preenchidas: ', acertos)
+  console.log('Figurinhas que já tenho: ', hasFigures)
 
   const pages = Math.ceil(figures.length / figurePerPage)
   const startIndex = currentPage * figurePerPage
@@ -102,7 +81,9 @@ export default function FigurePage({ data }: any) {
       >
         {albums[0].attributes.nation.data.attributes.players.data.map(
           (player: any) => {
-            if (player.attributes.name) {
+            // check if hasFigures has the player
+            if (hasFigures.includes(player.attributes.name)) {
+              console.log('ja tenho!')
             }
 
             return (
