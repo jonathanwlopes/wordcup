@@ -30,6 +30,7 @@ export const Content = styled.div`
   border-radius: 0px 0px 10px 10px;
   width: 100%;
   height: 57px;
+  margin-top: 4px;
 `
 
 export const Name = styled.p`
@@ -44,5 +45,4 @@ export const Position = styled.p`
   font-size: 16px;
   line-height: 15px;
   color: #ffffff;
-  text-transform: capitalize;
 `

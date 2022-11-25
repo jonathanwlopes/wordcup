@@ -8,6 +8,7 @@ import { initializeApollo } from 'utils/apollo'
 
 import Figure from '../components/Figure'
 import FigureBlank from '../components/FigureBlank'
+import NationInfo from '../components/NationInfo'
 
 export default function FigurePage({ data }: any) {
   const [figures, setFigures] = useState(
@@ -25,12 +26,13 @@ export default function FigurePage({ data }: any) {
     }
   })
 
-  console.log('Figurinhas que já tenho: ', hasFigures)
-
   const pages = Math.ceil(figures.length / figurePerPage)
   const startIndex = currentPage * figurePerPage
   const endIndex = startIndex + figurePerPage
   const currentFigure = figures.slice(startIndex, endIndex)
+
+  const figureHasPhoto = []
+  const figureHasNoPhoto = []
 
   useEffect(() => {
     if (nation) {
@@ -45,6 +47,8 @@ export default function FigurePage({ data }: any) {
   return (
     <Base>
       <button onClick={() => signOut()}>Sair</button>
+
+      <NationInfo nation={nation} />
 
       <select
         name="nation"
@@ -81,72 +85,40 @@ export default function FigurePage({ data }: any) {
       >
         {albums[0].attributes.nation.data.attributes.players.data.map(
           (player: any) => {
-            // check if hasFigures has the player
-            if (hasFigures.includes(player.attributes.name)) {
-              console.log('ja tenho!')
-            }
-
-            return (
-              <FigureBlank
-                key={player.attributes.name}
-                name={player.attributes.name}
-                position={player.attributes.position.data.attributes.name.replace(
-                  '_',
-                  ' '
-                )}
-              />
+            const name = hasFigures.find(
+              (figure: any) =>
+                figure.attributes.player.data.attributes.name ===
+                player.attributes.name
             )
+
+            if (name) {
+              figureHasPhoto.push(name)
+            } else {
+              figureHasNoPhoto.push(player)
+            }
           }
         )}
+
+        {figureHasPhoto.map((figure: any) => (
+          <Figure
+            key={figure.attributes.player.data.attributes.cpf}
+            name={figure.attributes.player.data.attributes.name}
+            photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
+            position={
+              figure.attributes.player.data.attributes.position.data.attributes
+                .name
+            }
+          />
+        ))}
+
+        {figureHasNoPhoto.map((player: any, index) => (
+          <FigureBlank
+            key={index}
+            name={player.attributes.name}
+            position={player.attributes.position.data.attributes.name}
+          />
+        ))}
       </div>
-
-      {/* <div
-        style={{
-          display: 'flex',
-          gap: '10px',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        {currentFigure.map((figure) => {
-          return (
-            <Figure
-              key={figure.attributes.player.data.attributes.cpf}
-              name={figure.attributes.player.data.attributes.name}
-              photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo?.data[0]?.attributes?.url}`}
-              position={figure.attributes.player.data.attributes.position.data.attributes.name.replace(
-                '_',
-                ' '
-              )}
-            />
-          )
-        })}
-      </div> */}
-
-      {/* <div
-        style={{
-          display: 'flex',
-          gap: '5px',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: '10px'
-        }}
-      >
-        {Array.from(Array(pages), (figure, index) => {
-          return (
-            <button
-              style={{
-                padding: '10px'
-              }}
-              key={index}
-              value={index}
-              onClick={(e) => setCurrentPage(Number(e.target.value))}
-            >
-              {index + 1}
-            </button>
-          )
-        })}
-      </div> */}
     </Base>
   )
 }

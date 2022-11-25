@@ -49,5 +49,4 @@ export const Position = styled.p`
   font-size: 16px;
   line-height: 15px;
   color: #ffffff;
-  text-transform: capitalize;
 `
