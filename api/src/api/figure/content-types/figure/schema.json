@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "figures",
+  "info": {
+    "singularName": "figure",
+    "pluralName": "figures",
+    "displayName": "figure",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "player": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::player.player"
+    },
+    "cpf": {
+      "type": "biginteger",
+      "required": true,
+      "unique": true
+    }
+  }
+}

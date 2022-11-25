@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "players",
+  "info": {
+    "singularName": "player",
+    "pluralName": "players",
+    "displayName": "player",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "photo": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "birth_date": {
+      "type": "date",
+      "required": true
+    },
+    "heigth": {
+      "type": "string",
+      "required": true
+    },
+    "weight": {
+      "type": "string",
+      "required": true
+    },
+    "nation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::nation.nation",
+      "inversedBy": "players"
+    },
+    "position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::position.position"
+    },
+    "cpf": {
+      "type": "biginteger",
+      "required": true,
+      "unique": true
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "nations",
+  "info": {
+    "singularName": "nation",
+    "pluralName": "nations",
+    "displayName": "nation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "flag": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    },
+    "continent": {
+      "type": "string",
+      "required": true
+    },
+    "players": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::player.player",
+      "mappedBy": "nation"
+    }
+  }
+}
