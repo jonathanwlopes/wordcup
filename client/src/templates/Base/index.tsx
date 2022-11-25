@@ -1,3 +1,5 @@
+import Footer from '../../components/Footer'
+
 export type BaseTemplateProps = {
   children: React.ReactNode
 }
@@ -7,7 +9,7 @@ export const Base = ({ children }: BaseTemplateProps) => {
     <div>
       <header>Header</header>
       {children}
-      <footer>Footer</footer>
+      <Footer />
     </div>
   )
 }
