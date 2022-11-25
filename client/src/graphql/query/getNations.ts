@@ -5,6 +5,13 @@ export const QUERY_GET_NATIONS = gql`
     nations(filters: $filters) {
       data {
         attributes {
+          bg {
+            data {
+              attributes {
+                url
+              }
+            }
+          }
           name
         }
       }

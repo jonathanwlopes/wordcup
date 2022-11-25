@@ -18,6 +18,10 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
   }
+
+  .ReactModal__Overlay--after-open {
+    z-index: 999;
+  }
 `
 
 export default GlobalStyles
