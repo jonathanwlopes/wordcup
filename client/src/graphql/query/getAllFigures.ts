@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const QUERY_FIGURES = gql`
-  query QueryFigures($pagination: PaginationArg) {
+export const QUERY_GET_ALL_FIGURES = gql`
+  query Query_Get_All_Figures($pagination: PaginationArg) {
     figures(pagination: $pagination) {
       data {
         id

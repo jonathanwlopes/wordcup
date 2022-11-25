@@ -573,10 +573,51 @@ type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
 }
 
+input AlbumFiltersInput {
+  id: IDFilterInput
+  figures: FigureFiltersInput
+  user: UsersPermissionsUserFiltersInput
+  nation: NationFiltersInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  and: [AlbumFiltersInput]
+  or: [AlbumFiltersInput]
+  not: AlbumFiltersInput
+}
+
+input AlbumInput {
+  figures: [ID]
+  user: ID
+  nation: ID
+}
+
+type Album {
+  figures(filters: FigureFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): FigureRelationResponseCollection
+  user: UsersPermissionsUserEntityResponse
+  nation: NationEntityResponse
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type AlbumEntity {
+  id: ID
+  attributes: Album
+}
+
+type AlbumEntityResponse {
+  data: AlbumEntity
+}
+
+type AlbumEntityResponseCollection {
+  data: [AlbumEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
 input FigureFiltersInput {
   id: IDFilterInput
   player: PlayerFiltersInput
   cpf: LongFilterInput
+  users: UsersPermissionsUserFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   publishedAt: DateTimeFilterInput
@@ -588,12 +629,14 @@ input FigureFiltersInput {
 input FigureInput {
   player: ID
   cpf: Long
+  users: [ID]
   publishedAt: DateTime
 }
 
 type Figure {
   player: PlayerEntityResponse
   cpf: Long!
+  users(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime
@@ -610,6 +653,50 @@ type FigureEntityResponse {
 
 type FigureEntityResponseCollection {
   data: [FigureEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+type FigureRelationResponseCollection {
+  data: [FigureEntity!]!
+}
+
+input GroupFiltersInput {
+  id: IDFilterInput
+  nations: NationFiltersInput
+  name: StringFilterInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
+  and: [GroupFiltersInput]
+  or: [GroupFiltersInput]
+  not: GroupFiltersInput
+}
+
+input GroupInput {
+  nations: [ID]
+  name: String
+  publishedAt: DateTime
+}
+
+type Group {
+  nations(filters: NationFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): NationRelationResponseCollection
+  name: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type GroupEntity {
+  id: ID
+  attributes: Group
+}
+
+type GroupEntityResponse {
+  data: GroupEntity
+}
+
+type GroupEntityResponseCollection {
+  data: [GroupEntity!]!
   meta: ResponseCollectionMeta!
 }
 
@@ -659,6 +746,10 @@ type NationEntityResponse {
 type NationEntityResponseCollection {
   data: [NationEntity!]!
   meta: ResponseCollectionMeta!
+}
+
+type NationRelationResponseCollection {
+  data: [NationEntity!]!
 }
 
 input PlayerFiltersInput {
@@ -759,7 +850,44 @@ type PositionEntityResponseCollection {
   meta: ResponseCollectionMeta!
 }
 
-union GenericMorph = UploadFile | UploadFolder | I18NLocale | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Figure | Nation | Player | Position
+input StadiumFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
+  and: [StadiumFiltersInput]
+  or: [StadiumFiltersInput]
+  not: StadiumFiltersInput
+}
+
+input StadiumInput {
+  name: String
+  publishedAt: DateTime
+}
+
+type Stadium {
+  name: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type StadiumEntity {
+  id: ID
+  attributes: Stadium
+}
+
+type StadiumEntityResponse {
+  data: StadiumEntity
+}
+
+type StadiumEntityResponseCollection {
+  data: [StadiumEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+union GenericMorph = UploadFile | UploadFolder | I18NLocale | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Album | Figure | Group | Nation | Player | Position | Stadium
 
 input FileInfoInput {
   name: String
@@ -834,14 +962,20 @@ type Query {
   usersPermissionsRoles(filters: UsersPermissionsRoleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsRoleEntityResponseCollection
   usersPermissionsUser(id: ID): UsersPermissionsUserEntityResponse
   usersPermissionsUsers(filters: UsersPermissionsUserFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): UsersPermissionsUserEntityResponseCollection
+  album(id: ID): AlbumEntityResponse
+  albums(filters: AlbumFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): AlbumEntityResponseCollection
   figure(id: ID): FigureEntityResponse
   figures(filters: FigureFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): FigureEntityResponseCollection
+  group(id: ID): GroupEntityResponse
+  groups(filters: GroupFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): GroupEntityResponseCollection
   nation(id: ID): NationEntityResponse
   nations(filters: NationFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): NationEntityResponseCollection
   player(id: ID): PlayerEntityResponse
   players(filters: PlayerFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): PlayerEntityResponseCollection
   position(id: ID): PositionEntityResponse
   positions(filters: PositionFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): PositionEntityResponseCollection
+  stadium(id: ID): StadiumEntityResponse
+  stadiums(filters: StadiumFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): StadiumEntityResponseCollection
   me: UsersPermissionsMe
 }
 
@@ -852,9 +986,15 @@ type Mutation {
   createUploadFolder(data: UploadFolderInput!): UploadFolderEntityResponse
   updateUploadFolder(id: ID!, data: UploadFolderInput!): UploadFolderEntityResponse
   deleteUploadFolder(id: ID!): UploadFolderEntityResponse
+  createAlbum(data: AlbumInput!): AlbumEntityResponse
+  updateAlbum(id: ID!, data: AlbumInput!): AlbumEntityResponse
+  deleteAlbum(id: ID!): AlbumEntityResponse
   createFigure(data: FigureInput!): FigureEntityResponse
   updateFigure(id: ID!, data: FigureInput!): FigureEntityResponse
   deleteFigure(id: ID!): FigureEntityResponse
+  createGroup(data: GroupInput!): GroupEntityResponse
+  updateGroup(id: ID!, data: GroupInput!): GroupEntityResponse
+  deleteGroup(id: ID!): GroupEntityResponse
   createNation(data: NationInput!): NationEntityResponse
   updateNation(id: ID!, data: NationInput!): NationEntityResponse
   deleteNation(id: ID!): NationEntityResponse
@@ -864,6 +1004,9 @@ type Mutation {
   createPosition(data: PositionInput!): PositionEntityResponse
   updatePosition(id: ID!, data: PositionInput!): PositionEntityResponse
   deletePosition(id: ID!): PositionEntityResponse
+  createStadium(data: StadiumInput!): StadiumEntityResponse
+  updateStadium(id: ID!, data: StadiumInput!): StadiumEntityResponse
+  deleteStadium(id: ID!): StadiumEntityResponse
   upload(refId: ID, ref: String, field: String, info: FileInfoInput, file: Upload!): UploadFileEntityResponse!
   multipleUpload(refId: ID, ref: String, field: String, files: [Upload]!): [UploadFileEntityResponse]!
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!

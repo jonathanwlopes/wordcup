@@ -1,12 +1,11 @@
 import { gql } from '@apollo/client'
 
-export const QUERY_FIGURES = gql`
-  query QueryFigures($pagination: PaginationArg) {
-    figures(pagination: $pagination) {
+export const QUERY_FIGURES_BY_USER = gql`
+  query Query_Figures_By_User($filters: FigureFiltersInput) {
+    figures(filters: $filters) {
       data {
         id
         attributes {
-          cpf
           player {
             data {
               attributes {

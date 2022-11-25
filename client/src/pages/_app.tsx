@@ -3,6 +3,7 @@ import { AppProps } from 'next/dist/shared/lib/router/router'
 import { SessionProvider as AuthProvider } from 'next-auth/react'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from 'utils/apollo'
+import Modal from 'react-modal'
 
 import GlobalStyles from 'styles/global'
 
@@ -30,4 +31,5 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   )
 }
 
+Modal.setAppElement('#__next')
 export default App
