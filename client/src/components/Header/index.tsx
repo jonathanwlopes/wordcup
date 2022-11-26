@@ -19,13 +19,13 @@ const Header = ({ logo }: HeaderProps) => {
             <S.Welcome>Olá, {session.data?.user?.name}!</S.Welcome>
           )}
           <S.ListMenu>
-            <S.ItemMenu onClick={() => push('/')}>
+            <S.ItemMenu onClick={() => push('/figures')}>
               <S.IconHome />
               <S.TextMenu>Home</S.TextMenu>
             </S.ItemMenu>
-            <S.ItemMenu>
+            <S.ItemMenu onClick={() => push('/allFigures')}>
               <S.IconSettings />
-              <S.TextMenu>Configurações</S.TextMenu>
+              <S.TextMenu>Figurinhas</S.TextMenu>
             </S.ItemMenu>
             {session.data?.user && (
               <S.ItemMenu>

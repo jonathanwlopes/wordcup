@@ -27,7 +27,7 @@ export default function CreateAlbum() {
         data: {
           figures: welcomeFigures,
           user: session?.data?.id,
-          nation: 'Brazil'
+          nation: 2
         }
       }
     })

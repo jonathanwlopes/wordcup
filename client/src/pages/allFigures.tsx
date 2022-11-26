@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { QUERY_GET_ALL_FIGURES } from 'graphql/query/getAllFigures'
 
@@ -8,14 +8,24 @@ import Figure from 'components/Figure'
 
 export default function AllFigures() {
   const { data } = useQuery(QUERY_GET_ALL_FIGURES)
-  const [figures, setFigures] = useState(data.figures.data || [])
-  const [figurePerPage, setFigurePerPage] = useState(10)
+  const [figures, setFigures] = useState([])
+  const [figurePerPage, setFigurePerPage] = useState(2)
   const [currentPage, setCurrentPage] = useState(0)
+
+  console.log(data?.figures.data)
+
+  useEffect(() => {
+    setFigures(data?.figures.data)
+    console.log(figures, 'figures')
+  }, [data, figures])
+
+  if (!figures) return null
+
   const pages = Math.ceil(figures.length / figurePerPage)
   const startIndex = currentPage * figurePerPage
   const endIndex = startIndex + figurePerPage
-  const currentFigure = figures.slice(startIndex, endIndex)
 
+  const currentFigure = figures.slice(startIndex, endIndex)
   return (
     <Base>
       <h1
