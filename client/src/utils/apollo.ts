@@ -16,7 +16,7 @@ type ISession = Session & {
 
 function createApolloClient(session?: ISession | null) {
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_API_URL}graphql`
+    uri: `http://localhost:1337/graphql`
   })
 
   const authLink = setContext((_, { headers }) => {

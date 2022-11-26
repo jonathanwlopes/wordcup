@@ -7,7 +7,7 @@ import Link from 'next/link'
 const FormSignIn = () => {
   const [loading, setLoading] = useState(false)
   const routes = useRouter()
-  const { push, query } = routes
+  const { push } = routes
   const [values, setValues] = useState({})
 
   const handleInput = (field: string, value: string) =>
@@ -71,7 +71,7 @@ const FormSignIn = () => {
         </form>
 
         <S.Signup>
-          Começando agora? <Link href="/">Cadastre-se</Link>.
+          Começando agora? <Link href="/signup">Cadastre-se</Link>.
         </S.Signup>
         <S.LogoAgency src="/img/logo-agencia.png" alt="Agência eplus" />
       </S.FormWrapper>

@@ -14,9 +14,11 @@ import { QUERY_GET_ALL_FIGURES } from 'graphql/query/getAllFigures'
 import { Base } from 'templates/Base'
 import { sortFigures } from 'utils/sortFigures'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export function Collection({ albums }: any) {
   const session = useSession()
+  const { push } = useRouter()
   const [modalIsOpen, setIsOpen] = useState(false)
 
   function openModal() {
@@ -27,8 +29,6 @@ export function Collection({ albums }: any) {
     setIsOpen(false)
   }
 
-  const figures = albums.albums.data[0].attributes.figures
-
   const { data: listFigures } = useQuery(QUERY_GET_ALL_FIGURES)
   const { data } = useQuery(QUERY_GET_NATIONS)
   const [currentNation, setCurrentNation] = useState() as any
@@ -36,6 +36,10 @@ export function Collection({ albums }: any) {
     onError: (err) => console.log(err)
   })
   const [listWin, setListWin] = useState([])
+
+  if (!albums.albums.data.length) return <h1>Cadastre um album no sistema!</h1>
+
+  const figures = albums.albums.data[0].attributes.figures
 
   const nationsName = data?.nations.data.map((nation) => nation.attributes.name)
 
@@ -46,6 +50,10 @@ export function Collection({ albums }: any) {
       figure.attributes.player.data.attributes.nation.data.attributes.name ===
       (currentNation || nationsName[0])
   )
+
+  const currentBg =
+    currentFigures[0]?.attributes?.player?.data?.attributes?.nation?.data
+      ?.attributes?.bg?.data[0]?.attributes?.url || ''
 
   const handleClick = async () => {
     const figuresWin = sortFigures(listFigures)
@@ -79,11 +87,13 @@ export function Collection({ albums }: any) {
                 Este é seu acervo de figurinhas. Clique para colar ou trocar.
               </S.Description>
             </S.WrapperText>
-            <S.ButtonAlbum>Ver meu álbum</S.ButtonAlbum>
+            <S.ButtonAlbum onClick={() => push('/figures')}>
+              Ver meu álbum
+            </S.ButtonAlbum>
           </S.InfoAlbum>
         </S.Center>
 
-        <S.WrapperSwiper>
+        <S.WrapperSwiper bg={`${process.env.NEXT_PUBLIC_API_URL}${currentBg}`}>
           <Swiper
             modules={[Navigation]}
             spaceBetween={50}
@@ -127,7 +137,7 @@ export function Collection({ albums }: any) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Example Modal"
+        contentLabel="Modal"
       >
         <h1>Você Ganhou!!</h1>
         {listWin.map((win, idx) => (

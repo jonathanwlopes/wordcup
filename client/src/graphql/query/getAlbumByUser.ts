@@ -17,6 +17,13 @@ export const QUERY_ALBUM_BY_USER = gql`
                       nation {
                         data {
                           attributes {
+                            bg {
+                              data {
+                                attributes {
+                                  url
+                                }
+                              }
+                            }
                             name
                           }
                         }

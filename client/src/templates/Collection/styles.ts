@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import * as FigureStyles from 'components/Figure/styles'
+import css from 'styled-jsx/css'
 
 export const Container = styled.div`
   .swiper-button-next,
@@ -54,10 +55,11 @@ export const Container = styled.div`
   }
 `
 
-export const WrapperSwiper = styled.div`
+export const WrapperSwiper = styled.div<{ bg: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url(${({ bg }) => bg});
   background-color: green;
   height: 133px;
 `

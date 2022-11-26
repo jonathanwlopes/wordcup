@@ -48,3 +48,17 @@ export const Input = styled.input`
   padding-left: 10px;
   color: #000;
 `
+
+export const Button = styled.button`
+  all: unset;
+  margin: 45px auto 0 auto;
+  background: #c9c9c9;
+  border-radius: 10px;
+  padding: 10px 0;
+  width: 120px;
+  text-align: center;
+  color: #ffffff;
+  cursor: pointer;
+`
+
+export const Topo = styled.img``

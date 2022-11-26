@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
-
 import { UsersPermissionsRegisterInput } from 'graphql/generated/globalTypes'
 import { MUTATION_REGISTER } from 'graphql/mutations/register'
-
-import * as S from './styles'
 import { signIn } from 'next-auth/react'
-
-import Button from '../Button'
+import { useState } from 'react'
+import * as S from './styles'
 
 const FromSignUp = () => {
   const [createUser, { error }] = useMutation(MUTATION_REGISTER, {
@@ -118,9 +114,7 @@ const FromSignUp = () => {
           </S.InputArea>
         </S.Line>
 
-        <Button style={{ margin: '45px auto 0 auto' }} type="submit">
-          Cadastrar
-        </Button>
+        <S.Button type="submit">Cadastrar</S.Button>
       </S.Form>
     </S.Wrapper>
   )
