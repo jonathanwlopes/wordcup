@@ -8,6 +8,9 @@ export const Footer = styled.footer`
   align-items: center;
   padding: 1rem 0;
   margin-top: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 `
 
 export const Logo = styled.img`

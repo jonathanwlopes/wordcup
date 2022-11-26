@@ -8,6 +8,13 @@ export const QUERY_ALBUMS = gql`
           nation {
             data {
               attributes {
+                bg {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
                 name
                 players {
                   data {

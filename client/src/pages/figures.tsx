@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { GetServerSidePropsContext } from 'next'
-import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { Base } from 'templates/Base'
 import protectedRoutes from 'utils/protected-routes'
 import { QUERY_ALBUMS } from 'graphql/query/albums'
@@ -9,15 +9,20 @@ import { initializeApollo } from 'utils/apollo'
 import Figure from '../components/Figure'
 import FigureBlank from '../components/FigureBlank'
 import NationInfo from '../components/NationInfo'
+import Button from '../components/Button'
 
 export default function FigurePage({ data }: any) {
-  // return null
   const [figures, setFigures] = useState(
     data.albums.data[0].attributes.figures.data
   )
+
+  console.log(figures)
+
   const [figurePerPage, setFigurePerPage] = useState(13)
   const [currentPage, setCurrentPage] = useState(0)
-  const [nation, setNation] = useState('')
+  const [nation, setNation] = useState(
+    data.albums.data[0].attributes.nation.data.attributes.name
+  )
   const [albums, setAlbums] = useState(data.albums.data)
 
   const hasFigures = []
@@ -47,11 +52,9 @@ export default function FigurePage({ data }: any) {
 
   return (
     <Base>
-      <button onClick={() => signOut()}>Sair</button>
+      <NationInfo nation={nation} data={albums} />
 
-      <NationInfo nation={nation} />
-
-      <select
+      {/* <select
         name="nation"
         id="nation"
         onChange={(e) => setNation(e.target.value)}
@@ -71,7 +74,7 @@ export default function FigurePage({ data }: any) {
             )
           }
         })}
-      </select>
+      </select> */}
 
       <div
         style={{
@@ -81,7 +84,7 @@ export default function FigurePage({ data }: any) {
           gap: '20px',
           flexWrap: 'wrap',
           width: '1100px',
-          margin: '0 auto'
+          margin: '0 auto 60px auto'
         }}
       >
         {albums[0].attributes.nation.data.attributes.players.data.map(
@@ -104,7 +107,7 @@ export default function FigurePage({ data }: any) {
           <Figure
             key={figure.attributes.player.data.attributes.cpf}
             name={figure.attributes.player.data.attributes.name}
-            photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
+            photo={`${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
             position={
               figure.attributes.player.data.attributes.position.data.attributes
                 .name
