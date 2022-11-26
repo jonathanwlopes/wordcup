@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { GetServerSidePropsContext } from 'next'
-import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { Base } from 'templates/Base'
 import protectedRoutes from 'utils/protected-routes'
 import { QUERY_ALBUMS } from 'graphql/query/albums'
@@ -9,19 +9,47 @@ import { initializeApollo } from 'utils/apollo'
 import Figure from '../components/Figure'
 import FigureBlank from '../components/FigureBlank'
 import NationInfo from '../components/NationInfo'
+import Button from '../components/Button'
 
 export default function FigurePage({ data }: any) {
+  const { push } = useRouter()
+
+  if (data.albums.data.length === 0) {
+    return (
+      <Base>
+        <h1
+          style={{
+            fontSize: '26px',
+            textAlign: 'center',
+            margin: '20px 0'
+          }}
+        >
+          Você ainda não possui nenhum álbum
+        </h1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <Button onClick={() => push('/createAlbum')}>Criar álbum</Button>
+        </div>
+      </Base>
+    )
+  }
+
   const [figures, setFigures] = useState(
     data.albums.data[0].attributes.figures.data
   )
+
+  console.log(figures)
+
   const [figurePerPage, setFigurePerPage] = useState(13)
   const [currentPage, setCurrentPage] = useState(0)
   const [nation, setNation] = useState(
     data.albums.data[0].attributes.nation.data.attributes.name
   )
   const [albums, setAlbums] = useState(data.albums.data)
-
-  console.log(data)
 
   const hasFigures = []
   albums[0].attributes.figures.data.filter(function (element) {
@@ -82,7 +110,7 @@ export default function FigurePage({ data }: any) {
           gap: '20px',
           flexWrap: 'wrap',
           width: '1100px',
-          margin: '0 auto'
+          margin: '0 auto 60px auto'
         }}
       >
         {albums[0].attributes.nation.data.attributes.players.data.map(

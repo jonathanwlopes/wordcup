@@ -8,8 +8,6 @@ import { Base } from 'templates/Base'
 export default function AllFigures() {
   const { data } = useQuery(QUERY_GET_ALL_FIGURES)
 
-  console.log(data)
-
   const [figures, setFigures] = useState(data?.figures.data)
   const [figurePerPage, setFigurePerPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(0)
