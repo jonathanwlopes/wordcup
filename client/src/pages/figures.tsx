@@ -11,6 +11,7 @@ import FigureBlank from '../components/FigureBlank'
 import NationInfo from '../components/NationInfo'
 
 export default function FigurePage({ data }: any) {
+  // return null
   const [figures, setFigures] = useState(
     data.albums.data[0].attributes.figures.data
   )

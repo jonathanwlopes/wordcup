@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { QUERY_FIGURES } from 'graphql/query/figures'
 import { GetServerSidePropsContext } from 'next'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import protectedRoutes from 'utils/protected-routes'
 import { sortFigures } from 'utils/sortFigures'
 

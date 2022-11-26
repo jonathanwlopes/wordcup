@@ -37,7 +37,12 @@ export function Collection({ albums }: any) {
   })
   const [listWin, setListWin] = useState([])
 
-  if (!albums.albums.data.length) return <h1>Cadastre um album no sistema!</h1>
+  if (!albums.albums.data.length)
+    return (
+      <button onClick={() => push('/createAlbum')}>
+        Clique aqui para criar um álbum
+      </button>
+    )
 
   const figures = albums.albums.data[0].attributes.figures
 
@@ -67,7 +72,7 @@ export function Collection({ albums }: any) {
 
     updateFigures({
       variables: {
-        id: 14,
+        id: albums.albums.data[0].id,
         data: {
           figures: [...currentFiguresListIds, ...incomingFiguresId],
           user: session?.data?.id
@@ -139,21 +144,25 @@ export function Collection({ albums }: any) {
         onRequestClose={closeModal}
         contentLabel="Modal"
       >
-        <h1>Você Ganhou!!</h1>
-        {listWin.map((win, idx) => (
-          <Figure
-            key={idx}
-            name={win.attributes.player.data.attributes.name}
-            photo={
-              win.attributes.player.data.attributes.photo.data[0]?.attributes
-                .url
-            }
-            position={
-              win.attributes.player.data.attributes.position.data.attributes
-                .name
-            }
-          />
-        ))}
+        <S.ContainerModal>
+          <h1>Você Ganhou!!</h1>
+          <S.WrapperFigure>
+            {listWin.map((win, idx) => (
+              <Figure
+                key={idx}
+                name={win.attributes.player.data.attributes.name}
+                photo={
+                  win.attributes.player.data.attributes.photo.data[0]
+                    ?.attributes.url
+                }
+                position={
+                  win.attributes.player.data.attributes.position.data.attributes
+                    .name
+                }
+              />
+            ))}
+          </S.WrapperFigure>
+        </S.ContainerModal>
       </Modal>
     </Base>
   )

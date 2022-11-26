@@ -157,3 +157,13 @@ export const WinFigures = styled.button`
     background: #2b9e6ee6;
   }
 `
+export const ContainerModal = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const WrapperFigure = styled.div`
+  display: flex;
+  gap: 50px;
+  margin-top: 50px;
+`

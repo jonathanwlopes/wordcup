@@ -13,7 +13,7 @@ const FromSignUp = () => {
         signIn('credentials', {
           email: values.email,
           password: values.password,
-          callbackUrl: '/figures'
+          callbackUrl: '/acervo'
         })
     }
   })
