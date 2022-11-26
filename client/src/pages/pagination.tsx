@@ -1,42 +1,52 @@
-import { GetServerSidePropsContext } from 'next'
 import { useState } from 'react'
-import { QUERY_ALBUMS } from 'graphql/query/albums'
-import { initializeApollo } from 'utils/apollo'
-import protectedRoutes from 'utils/protected-routes'
+import { useQuery } from '@apollo/client'
+import { QUERY_GET_ALL_FIGURES } from 'graphql/query/getAllFigures'
 
 import Figure from '../components/Figure'
+import { Base } from 'templates/Base'
 
-export default function Test({ data }: any) {
-  const [figures, setFigures] = useState(
-    data.albums.data[0].attributes.figures.data
-  )
-  const [figurePerPage, setFigurePerPage] = useState(1)
-  const [currentPage, setCurrentPage] = useState(0)
-
-  const pages = Math.ceil(figures.length / figurePerPage)
-  const startIndex = currentPage * figurePerPage
-  const endIndex = startIndex + figurePerPage
-  const currentFigure = figures.slice(startIndex, endIndex)
+export default function AllFigures() {
+  const { data } = useQuery(QUERY_GET_ALL_FIGURES)
 
   console.log(data)
 
+  const [figures, setFigures] = useState(data?.figures.data)
+  const [figurePerPage, setFigurePerPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(0)
+
+  const pages = Math.ceil(figures?.length / figurePerPage)
+  const startIndex = currentPage * figurePerPage
+  const endIndex = startIndex + figurePerPage
+  const currentFigure = figures?.slice(startIndex, endIndex)
+
   return (
-    <>
+    <Base>
+      <h1
+        style={{
+          fontSize: '26px',
+          textAlign: 'center',
+          margin: '20px 0'
+        }}
+      >
+        Todas as figurinhas - Copa Hackathon 2022
+      </h1>
+
       <div>
-        {Array.from(Array(pages), (figure, index) => {
-          return (
-            <button
-              key={index}
-              value={index}
-              onClick={(e) => setCurrentPage(Number(e.target.value))}
-            >
-              {index + 1}
-            </button>
-          )
-        })}
+        {pages &&
+          Array.from(Array(pages), (figure, index) => {
+            return (
+              <button
+                key={index}
+                value={index}
+                onClick={(e) => setCurrentPage(Number(e.target.value))}
+              >
+                {index + 1}
+              </button>
+            )
+          })}
       </div>
 
-      {currentFigure.map((figure) => {
+      {currentFigure?.map((figure) => {
         return (
           <Figure
             key={figure.attributes.player.data.attributes.cpf}
@@ -61,32 +71,6 @@ export default function Test({ data }: any) {
           />
         )
       })}
-    </>
+    </Base>
   )
-}
-
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const session = await protectedRoutes(ctx)
-  const apolloClient = initializeApollo(null, session)
-
-  const { data } = await apolloClient.query({
-    query: QUERY_ALBUMS,
-    variables: {
-      filters: {
-        user: {
-          id: {
-            eq: session?.id
-          }
-        }
-      }
-    }
-  })
-
-  return {
-    props: {
-      initialApolloState: apolloClient.cache.extract(),
-      data,
-      session
-    }
-  }
 }

@@ -16,8 +16,12 @@ export default function FigurePage({ data }: any) {
   )
   const [figurePerPage, setFigurePerPage] = useState(13)
   const [currentPage, setCurrentPage] = useState(0)
-  const [nation, setNation] = useState('')
+  const [nation, setNation] = useState(
+    data.albums.data[0].attributes.nation.data.attributes.name
+  )
   const [albums, setAlbums] = useState(data.albums.data)
+
+  console.log(data)
 
   const hasFigures = []
   albums[0].attributes.figures.data.filter(function (element) {
@@ -46,11 +50,9 @@ export default function FigurePage({ data }: any) {
 
   return (
     <Base>
-      <button onClick={() => signOut()}>Sair</button>
+      <NationInfo nation={nation} data={albums} />
 
-      <NationInfo nation={nation} />
-
-      <select
+      {/* <select
         name="nation"
         id="nation"
         onChange={(e) => setNation(e.target.value)}
@@ -70,7 +72,7 @@ export default function FigurePage({ data }: any) {
             )
           }
         })}
-      </select>
+      </select> */}
 
       <div
         style={{
@@ -103,7 +105,7 @@ export default function FigurePage({ data }: any) {
           <Figure
             key={figure.attributes.player.data.attributes.cpf}
             name={figure.attributes.player.data.attributes.name}
-            photo={`${process.env.NEXT_PUBLIC_API_URL}${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
+            photo={`${figure.attributes.player.data.attributes.photo.data[0].attributes.url}`}
             position={
               figure.attributes.player.data.attributes.position.data.attributes
                 .name
